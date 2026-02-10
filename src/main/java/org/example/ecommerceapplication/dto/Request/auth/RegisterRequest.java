@@ -1,0 +1,7 @@
+package org.example.ecommerceapplication.dto.Request.auth;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record RegisterRequest(@NotBlank String username,@NotBlank String fullname, @NotBlank @Email String email, @NotBlank String password) {
+}
