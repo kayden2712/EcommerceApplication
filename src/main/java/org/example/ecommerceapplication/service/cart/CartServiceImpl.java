@@ -1,7 +1,6 @@
 package org.example.ecommerceapplication.service.cart;
 
 import lombok.RequiredArgsConstructor;
-import org.example.ecommerceapplication.Mapper.CartItemMapper;
 import org.example.ecommerceapplication.dto.Request.cart.AddToCartRequest;
 import org.example.ecommerceapplication.entity.Cart;
 import org.example.ecommerceapplication.entity.CartItem;
