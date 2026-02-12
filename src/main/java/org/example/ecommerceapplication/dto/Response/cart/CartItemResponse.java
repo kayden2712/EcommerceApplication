@@ -5,6 +5,8 @@ public record CartItemResponse(
         Long productId,
         String productName,
         Double price,
-        Integer quantity
+        Integer quantity,
+        String selectedColor,
+        String availableColor
 ) {
 }
