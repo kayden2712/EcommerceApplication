@@ -7,6 +7,7 @@ import org.example.ecommerceapplication.entity.RefreshToken;
 import org.example.ecommerceapplication.entity.User;
 import org.example.ecommerceapplication.repository.RefreshTokenReponsitory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +19,11 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     private final RefreshTokenReponsitory refreshTokenReponsitory;
 
     @Override
+    @Transactional
     public RefreshToken create(User user) {
+        // Xóa refresh token cũ của user (nếu có)
+        refreshTokenReponsitory.deleteByUser(user);
+        
         RefreshToken token = new RefreshToken();
         token.setUser(user);
         token.setToken(UUID.randomUUID().toString());
