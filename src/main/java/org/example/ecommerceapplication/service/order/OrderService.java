@@ -7,4 +7,6 @@ public interface OrderService {
     OrderResponse placeOrder(Long userId);
 
     void cancelOrder(Long orderId);
+
+    OrderResponse getOrder(Long orderId);
 }
