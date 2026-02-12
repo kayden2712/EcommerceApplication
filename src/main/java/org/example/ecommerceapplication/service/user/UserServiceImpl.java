@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     private final UserRepository repository;
     private final PasswordEncoder encoder;
     private final UserMapper userMapper;
@@ -44,7 +45,6 @@ public class UserServiceImpl implements UserService {
 //         User user = getUserEntity(id);
 // //        user.setIsDeleted(true);
 //     }
-
     public User getUserEntity(Long id) {
         return repository.findById(id).orElseThrow(() -> new IllegalStateException("User not found with id: " + id));
     }
@@ -62,4 +62,9 @@ public class UserServiceImpl implements UserService {
     //         throw new RuntimeException("Username is already in use: " + username);
     //     }
     // }
+    @Override
+    public User findByUsername(String username) {
+        return repository.findByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("User not found with username: " + username));
+    }
 }
