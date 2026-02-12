@@ -1,8 +1,8 @@
 package org.example.ecommerceapplication.dto.Request.product;
 
-import jakarta.validation.constraints.DecimalMin;
-
 import java.math.BigDecimal;
+
+import jakarta.validation.constraints.DecimalMin;
 
 public record UpdateProductRequest(
         String name,
@@ -11,5 +11,6 @@ public record UpdateProductRequest(
         BigDecimal price,
 
         Integer stock,
+        String color,
         Long categoryId) {
 }
