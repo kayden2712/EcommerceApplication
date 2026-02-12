@@ -1,13 +1,14 @@
 package org.example.ecommerceapplication.service.user;
 
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.example.ecommerceapplication.Mapper.UserMapper;
 import org.example.ecommerceapplication.dto.Response.user.UserResponse;
 import org.example.ecommerceapplication.entity.User;
 import org.example.ecommerceapplication.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
@@ -38,11 +39,11 @@ public class UserServiceImpl implements UserService {
         repository.save(user);
     }
 
-    @Override
-    public void deactivate(Long id) {
-        User user = getUserEntity(id);
-//        user.setIsDeleted(true);
-    }
+//     @Override
+//     public void deactivate(Long id) {
+//         User user = getUserEntity(id);
+// //        user.setIsDeleted(true);
+//     }
 
     public User getUserEntity(Long id) {
         return repository.findById(id).orElseThrow(() -> new IllegalStateException("User not found with id: " + id));
@@ -55,10 +56,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    void validateUsername(String username) {
-        boolean exists = repository.existsByUsername(username);
-        if (exists) {
-            throw new RuntimeException("Username is already in use: " + username);
-        }
-    }
+    // void validateUsername(String username) {
+    //     boolean exists = repository.existsByUsername(username);
+    //     if (exists) {
+    //         throw new RuntimeException("Username is already in use: " + username);
+    //     }
+    // }
 }

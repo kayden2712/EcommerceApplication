@@ -9,5 +9,5 @@ public interface UserService {
 
     void changeEmail(Long id, String email);
 
-    void deactivate(Long id);
+    // void deactivate(Long id);
 }
