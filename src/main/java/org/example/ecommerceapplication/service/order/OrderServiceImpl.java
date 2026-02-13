@@ -40,14 +40,15 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
 
     @Override
-    public OrderResponse placeOrder(Long userId) {
-        Cart cart = getCartByUserId(userId);
+    public OrderResponse placeOrder(String name) {
+        Cart cart = getCartByUsername(name);
         List<CartItem> cartItems = getCartItems(cart);
 
         Order order = createPendingOrder(cart);
 
         List<OrderItem> orderItems = buildOrder(order, cartItems);
         order.setItems(orderItems);
+
         //Pricing
         BigDecimal totalPrice = orderPricingService.calculateOrderTotal(orderItems);
         order.setTotalPrice(totalPrice);
@@ -59,8 +60,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void cancelOrder(Long orderId) {
+    public void cancelOrder(Long orderId, String name) {
         Order order = getOrderById(orderId);
+        if (!order.getUser().getUsername().equals(name)) {
+            throw new IllegalStateException("User does not have permission to cancel this order");
+        }
         validator.validateCancel(order);
         restoreStock(order);
         order.setStatus(OrderStatus.CANCELLED);
@@ -69,21 +73,25 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public OrderResponse getOrder(Long orderId) {
-        return orderMapper.toResponse(getOrderById(orderId));
+    public OrderResponse getOrder(Long orderId, String name) {
+        Order order = getOrderById(orderId);
+        if (!order.getUser().getUsername().equals(name)) {
+            throw new IllegalStateException("User does not have permission to access this order");
+        }
+        return orderMapper.toResponse(order);
     }
 
-    // Fetch user by ID
-    private User getUser(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException("User not found with id: " + userId));
+    // Fetch user by username
+    private User getUserByUsername(String name) {
+        return userRepository.findByUsername(name)
+                .orElseThrow(() -> new IllegalStateException("User not found with username: " + name));
     }
 
     // Fetch cart by user ID
-    private Cart getCartByUserId(Long userId) {
-        User user = getUser(userId);
+    private Cart getCartByUsername(String username) {
+        User user = getUserByUsername(username);
         return cartRepository.findByUser(user)
-                .orElseThrow(() -> new IllegalStateException("Cart not found for user id: " + userId));
+                .orElseThrow(() -> new IllegalStateException("Cart not found for user username: " + username));
     }
 
     // Fetch cart items
@@ -111,7 +119,6 @@ public class OrderServiceImpl implements OrderService {
                     int quantity = cartItem.getQuantity();
                     validateStock(product, quantity);
                     product.setStock(product.getStock() - quantity);
-                    productRepository.save(product);
                     OrderItem orderItem = new OrderItem();
                     orderItem.setOrder(order);
                     orderItem.setProduct(product);
