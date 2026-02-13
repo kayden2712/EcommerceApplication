@@ -18,6 +18,8 @@ import org.example.ecommerceapplication.repository.OrderRepository;
 import org.example.ecommerceapplication.repository.ProductRepository;
 import org.example.ecommerceapplication.repository.UserRepository;
 import org.example.ecommerceapplication.service.cart.CartService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,6 +81,19 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalStateException("User does not have permission to access this order");
         }
         return orderMapper.toResponse(order);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<OrderResponse> getOrderHistory(String name, OrderStatus status, Pageable pageable) {
+        User user = getUserByUsername(name);
+        Page<Order> orders;
+        if (status != null) {
+            orders = orderRepository.findByUserAndStatus(user, status, pageable);
+        } else {
+            orders = orderRepository.findByUser(user, pageable);
+        }
+        return orders.map(orderMapper::toResponse);
     }
 
     // Fetch user by username
