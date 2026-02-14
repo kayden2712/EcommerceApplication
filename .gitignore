@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+EcommerceApp_Postman_Collection.json
+config.json.postman
+workspace.postman_globals.json
+HUONG_DAN_TEST_POSTMAN.md
+config.json
