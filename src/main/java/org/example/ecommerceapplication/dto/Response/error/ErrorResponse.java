@@ -13,5 +13,4 @@ public class ErrorResponse {
     private LocalDateTime timestamp;
     private String error;
     private String path;
-
 }

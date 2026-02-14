@@ -43,11 +43,6 @@ public class UserServiceImpl implements UserService {
         repository.save(user);
     }
 
-//     @Override
-//     public void deactivate(Long id) {
-//         User user = getUserEntity(id);
-// //        user.setIsDeleted(true);
-//     }
     public User getUserEntity(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -59,12 +54,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // void validateUsername(String username) {
-    //     boolean exists = repository.existsByUsername(username);
-    //     if (exists) {
-    //         throw new RuntimeException("Username is already in use: " + username);
-    //     }
-    // }
     @Override
     public User findByUsername(String username) {
         return repository.findByUsername(username)
