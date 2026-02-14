@@ -5,6 +5,9 @@ import java.util.UUID;
 
 import org.example.ecommerceapplication.entity.RefreshToken;
 import org.example.ecommerceapplication.entity.User;
+import org.example.ecommerceapplication.enums.ErrorCode;
+import org.example.ecommerceapplication.exception.domain.InvalidOperationException;
+import org.example.ecommerceapplication.exception.security.UnauthorizedException;
 import org.example.ecommerceapplication.repository.RefreshTokenReponsitory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,14 +37,14 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     @Override
     public RefreshToken verify(String token) {
         RefreshToken refreshToken = refreshTokenReponsitory.findByToken(token)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid refresh token"));
+                .orElseThrow(() -> new UnauthorizedException(ErrorCode.INVALID_TOKEN));
 
         if (refreshToken.isRevoked()) {
-            throw new IllegalStateException("Refresh token has been revoked");
+            throw new InvalidOperationException(ErrorCode.REFRESH_TOKEN_REVOKED);
         }
 
         if (refreshToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("Refresh token has expired");
+            throw new InvalidOperationException(ErrorCode.REFRESH_TOKEN_EXPIRED);
         }
         return refreshToken;
     }

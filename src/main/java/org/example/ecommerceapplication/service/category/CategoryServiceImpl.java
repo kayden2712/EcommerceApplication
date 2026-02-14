@@ -1,15 +1,19 @@
 package org.example.ecommerceapplication.service.category;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.example.ecommerceapplication.Mapper.CategoryMapper;
 import org.example.ecommerceapplication.dto.Request.category.CategoryRequest;
 import org.example.ecommerceapplication.dto.Response.category.CategoryResponse;
 import org.example.ecommerceapplication.entity.Category;
+import org.example.ecommerceapplication.enums.ErrorCode;
+import org.example.ecommerceapplication.exception.domain.DuplicateResourceException;
+import org.example.ecommerceapplication.exception.domain.ResourceNotFoundException;
 import org.example.ecommerceapplication.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
@@ -21,14 +25,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void validateCategoryExists(Long categoryId) {
         if (!repository.existsById(categoryId)) {
-            throw new IllegalStateException("Category with id " + categoryId + " does not exist.");
+            throw new ResourceNotFoundException(ErrorCode.CATEGORY_NOT_FOUND);
         }
     }
 
     @Override
     public CategoryResponse create(CategoryRequest request) {
         if (repository.existsByName(request.name())) {
-            throw new IllegalStateException("Category with name " + request.name() + " already exists.");
+            throw new DuplicateResourceException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
         Category category = categoryMapper.toEntity(request);
         return categoryMapper.toResponse(repository.save(category));
@@ -38,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponse update(Long id, CategoryRequest request) {
         Category category = getCategoryEntityById(id);
         if (repository.existsByName(request.name())) {
-            throw new IllegalStateException("Another category with name " + request.name() + " already exists.");
+            throw new DuplicateResourceException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
         categoryMapper.updateEntity(request, category);
         return categoryMapper.toResponse(category);
@@ -63,6 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private Category getCategoryEntityById(Long categoryId) {
-        return repository.findById(categoryId).orElseThrow(() -> new IllegalStateException("Category not found with id: " + categoryId));
+        return repository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.CATEGORY_NOT_FOUND));
     }
 }

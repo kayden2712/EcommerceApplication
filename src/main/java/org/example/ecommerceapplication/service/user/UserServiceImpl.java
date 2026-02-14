@@ -3,6 +3,9 @@ package org.example.ecommerceapplication.service.user;
 import org.example.ecommerceapplication.Mapper.UserMapper;
 import org.example.ecommerceapplication.dto.Response.user.UserResponse;
 import org.example.ecommerceapplication.entity.User;
+import org.example.ecommerceapplication.enums.ErrorCode;
+import org.example.ecommerceapplication.exception.domain.DuplicateResourceException;
+import org.example.ecommerceapplication.exception.domain.ResourceNotFoundException;
 import org.example.ecommerceapplication.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,13 +49,13 @@ public class UserServiceImpl implements UserService {
 // //        user.setIsDeleted(true);
 //     }
     public User getUserEntity(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalStateException("User not found with id: " + id));
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
     void validateEmail(String email) {
-        boolean exists = repository.existsByEmail(email);
-        if (exists) {
-            throw new RuntimeException("Email is already in use: " + email);
+        if (repository.existsByEmail(email)) {
+            throw new DuplicateResourceException(ErrorCode.EMAIL_ALREADY_EXISTS);
         }
     }
 
@@ -65,6 +68,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return repository.findByUsername(username)
-                .orElseThrow(() -> new IllegalStateException("User not found with username: " + username));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 }

@@ -1,18 +1,22 @@
 package org.example.ecommerceapplication.service.product;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.example.ecommerceapplication.Mapper.ProductMapper;
 import org.example.ecommerceapplication.dto.Request.product.CreateProductRequest;
 import org.example.ecommerceapplication.dto.Request.product.UpdateProductRequest;
 import org.example.ecommerceapplication.dto.Response.product.ProductResponse;
 import org.example.ecommerceapplication.entity.Category;
 import org.example.ecommerceapplication.entity.Product;
+import org.example.ecommerceapplication.enums.ErrorCode;
+import org.example.ecommerceapplication.exception.domain.InvalidOperationException;
+import org.example.ecommerceapplication.exception.domain.ResourceNotFoundException;
 import org.example.ecommerceapplication.repository.CategoryRepository;
 import org.example.ecommerceapplication.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
@@ -67,18 +71,18 @@ public class ProductServiceImpl implements ProductService {
     public void decreaseProductStock(Long productId, int stock) {
         Product product = getProductEntityById(productId);
         if (product.getStock() < stock) {
-            throw new IllegalStateException("Insufficient stock");
+            throw new InvalidOperationException(ErrorCode.INSUFFICIENT_STOCK);
         }
         product.setStock(product.getStock() - stock);
     }
 
-    private Category getCategoryEntityById(Long productId) {
-        return categoryRepository.findById(productId)
-                .orElseThrow(() -> new IllegalStateException("Category not found"));
+    private Category getCategoryEntityById(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.CATEGORY_NOT_FOUND));
     }
 
     private Product getProductEntityById(Long productId) {
         return repository.findById(productId)
-                .orElseThrow(() -> new IllegalStateException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.PRODUCT_NOT_FOUND));
     }
 }

@@ -1,12 +1,16 @@
 package org.example.ecommerceapplication.service.auth;
 
-import org
-.example.ecommerceapplication.dto.Request.auth.LoginRequest;
+import org.example.ecommerceapplication.dto.Request.auth.LoginRequest;
 import org.example.ecommerceapplication.dto.Request.auth.RegisterRequest;
 import org.example.ecommerceapplication.dto.Response.auth.AuthResponse;
 import org.example.ecommerceapplication.entity.RefreshToken;
 import org.example.ecommerceapplication.entity.User;
+import org.example.ecommerceapplication.enums.ErrorCode;
 import org.example.ecommerceapplication.enums.Role;
+import org.example.ecommerceapplication.exception.domain.DuplicateResourceException;
+import org.example.ecommerceapplication.exception.domain.InvalidOperationException;
+import org.example.ecommerceapplication.exception.domain.ResourceNotFoundException;
+import org.example.ecommerceapplication.exception.security.UnauthorizedException;
 import org.example.ecommerceapplication.repository.UserRepository;
 import org.example.ecommerceapplication.security.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,14 +29,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void register(RegisterRequest request) {
-        User user = new User();
-
         validateNotEmail(request.email());
         validateUsername(request.username());
-        if (request.password().length() < 8) {
-            throw new IllegalArgumentException("Password must be at least 8 characters");
-        }
+        validatePassword(request.password());
 
+        User user = new User();
         user.setUsername(request.username());
         user.setFullName(request.fullName());
         user.setEmail(request.email());
@@ -46,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
         User user = getUser(request.usernameOrEmail());
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-            throw new IllegalArgumentException("Invalid username/email or password");
+            throw new UnauthorizedException(ErrorCode.INVALID_CREDENTIALS);
         }
 
         String accessToken = jwtUtil.generateToken(user);
@@ -68,22 +69,27 @@ public class AuthServiceImpl implements AuthService {
         refreshTokenService.revoke(token.getUser());
     }
 
-    public User getUser(String name) {
+    private User getUser(String name) {
         return repository.findByUsername(name)
                 .or(() -> repository.findByEmail(name))
-                .orElseThrow(() -> new IllegalStateException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
-    public void validateNotEmail(String email) {
+    private void validateNotEmail(String email) {
         if (repository.existsByEmail(email)) {
-            throw new IllegalStateException("Email already in use");
+            throw new DuplicateResourceException(ErrorCode.EMAIL_ALREADY_EXISTS);
         }
     }
 
-    public void validateUsername(String username) {
+    private void validateUsername(String username) {
         if (repository.existsByUsername(username)) {
-            throw new IllegalStateException("Username already in use");
+            throw new DuplicateResourceException(ErrorCode.USERNAME_ALREADY_EXISTS);
         }
     }
 
+    private void validatePassword(String password) {
+        if (password == null || password.length() < 8) {
+            throw new InvalidOperationException(ErrorCode.PASSWORD_TOO_SHORT);
+        }
+    }
 }

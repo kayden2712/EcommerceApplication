@@ -10,6 +10,9 @@ import org.example.ecommerceapplication.entity.Cart;
 import org.example.ecommerceapplication.entity.CartItem;
 import org.example.ecommerceapplication.entity.Product;
 import org.example.ecommerceapplication.entity.User;
+import org.example.ecommerceapplication.enums.ErrorCode;
+import org.example.ecommerceapplication.exception.domain.InvalidOperationException;
+import org.example.ecommerceapplication.exception.domain.ResourceNotFoundException;
 import org.example.ecommerceapplication.repository.CartItemRepository;
 import org.example.ecommerceapplication.repository.CartRepository;
 import org.example.ecommerceapplication.repository.ProductRepository;
@@ -65,7 +68,8 @@ public class CartServiceImpl implements CartService {
     public void removeItem(String username, Long productId) {
         User user = getUser(username);
         Cart cart = getOrCreateCart(user);
-        CartItem cartItem = getCartItemByCartIdAndProductId(cart.getId(), productId).orElseThrow(() -> new RuntimeException("Cart item not found"));
+        CartItem cartItem = getCartItemByCartIdAndProductId(cart.getId(), productId)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.CART_ITEM_NOT_FOUND));
         cartItemRepository.delete(cartItem);
     }
 
@@ -86,7 +90,7 @@ public class CartServiceImpl implements CartService {
         validateStock(product, quantity);
 
         CartItem cartItem = cartItemRepository.findByCartIdAndProductId(cart.getId(), productId)
-                .orElseThrow(() -> new RuntimeException("Cart item not found for product id: " + productId));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.CART_ITEM_NOT_FOUND));
 
         cartItem.setQuantity(quantity);
         cartItemRepository.save(cartItem);
@@ -98,7 +102,7 @@ public class CartServiceImpl implements CartService {
         User user = getUser(username);
         Cart cart = getOrCreateCart(user);
         return cartItemMapper.toResponse(getCartItemByCartIdAndProductId(cart.getId(), productId)
-                .orElseThrow(() -> new RuntimeException("Cart item not found for product id: " + productId)));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.CART_ITEM_NOT_FOUND)));
     }
 
     @Override
@@ -124,13 +128,13 @@ public class CartServiceImpl implements CartService {
     // Fetch product by ID
     private Product getProduct(Long productId) {
         return productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalStateException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.PRODUCT_NOT_FOUND));
     }
 
     // Fetch user by username
     private User getUser(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
     // Fetch cart item by cart ID and product ID
@@ -141,14 +145,14 @@ public class CartServiceImpl implements CartService {
     // Validate quantity
     private void validateQuantity(Integer quantity) {
         if (quantity == null || quantity <= 0) {
-            throw new IllegalArgumentException("Quantity must be greater than zero.");
+            throw new InvalidOperationException(ErrorCode.INVALID_QUANTITY);
         }
     }
 
     // Validate stock availability
     private void validateStock(Product product, Integer quantity) {
         if (product.getStock() < quantity) {
-            throw new RuntimeException("Insufficient stock for product id: " + product.getId());
+            throw new InvalidOperationException(ErrorCode.INSUFFICIENT_STOCK);
         }
     }
 

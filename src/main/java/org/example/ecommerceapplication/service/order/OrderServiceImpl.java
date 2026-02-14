@@ -11,7 +11,10 @@ import org.example.ecommerceapplication.entity.Order;
 import org.example.ecommerceapplication.entity.OrderItem;
 import org.example.ecommerceapplication.entity.Product;
 import org.example.ecommerceapplication.entity.User;
+import org.example.ecommerceapplication.enums.ErrorCode;
 import org.example.ecommerceapplication.enums.OrderStatus;
+import org.example.ecommerceapplication.exception.domain.InvalidOperationException;
+import org.example.ecommerceapplication.exception.domain.ResourceNotFoundException;
 import org.example.ecommerceapplication.repository.CartItemRepository;
 import org.example.ecommerceapplication.repository.CartRepository;
 import org.example.ecommerceapplication.repository.OrderRepository;
@@ -65,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
     public void cancelOrder(Long orderId, String name) {
         Order order = getOrderById(orderId);
         if (!order.getUser().getUsername().equals(name)) {
-            throw new IllegalStateException("User does not have permission to cancel this order");
+            throw new InvalidOperationException(ErrorCode.ORDER_ACCESS_DENIED);
         }
         validator.validateCancel(order);
         restoreStock(order);
@@ -78,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse getOrder(Long orderId, String name) {
         Order order = getOrderById(orderId);
         if (!order.getUser().getUsername().equals(name)) {
-            throw new IllegalStateException("User does not have permission to access this order");
+            throw new InvalidOperationException(ErrorCode.ORDER_ACCESS_DENIED);
         }
         return orderMapper.toResponse(order);
     }
@@ -99,21 +102,21 @@ public class OrderServiceImpl implements OrderService {
     // Fetch user by username
     private User getUserByUsername(String name) {
         return userRepository.findByUsername(name)
-                .orElseThrow(() -> new IllegalStateException("User not found with username: " + name));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
     // Fetch cart by user ID
     private Cart getCartByUsername(String username) {
         User user = getUserByUsername(username);
         return cartRepository.findByUser(user)
-                .orElseThrow(() -> new IllegalStateException("Cart not found for user username: " + username));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.CART_NOT_FOUND));
     }
 
     // Fetch cart items
     private List<CartItem> getCartItems(Cart cart) {
         List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getId());
         if (cartItems.isEmpty()) {
-            throw new IllegalStateException("Cart is empty for cart id: " + cart.getId());
+            throw new InvalidOperationException(ErrorCode.CART_EMPTY);
         }
         return cartItems;
     }
@@ -147,14 +150,14 @@ public class OrderServiceImpl implements OrderService {
     // Validate stock availability
     private void validateStock(Product product, Integer quantity) {
         if (product.getStock() < quantity) {
-            throw new RuntimeException("Not enough stock for product: " + product.getId());
+            throw new InvalidOperationException(ErrorCode.INSUFFICIENT_STOCK);
         }
     }
 
     // Fetch order by ID
     private Order getOrderById(Long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalStateException("Order not found for id: " + orderId));
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.ORDER_NOT_FOUND));
     }
 
     // Restore stock when order is cancelled
