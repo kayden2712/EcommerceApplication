@@ -15,6 +15,5 @@ public interface OrderMapper {
     @Mapping(source = "product.id", target = "productId")
     @Mapping(source = "product.name", target = "productName")
     @Mapping(source = "price", target = "unitPrice")
-    @Mapping(target = "totalPrice", ignore = true)
     OrderItemResponse toItemResponse(OrderItem orderItem);
 }

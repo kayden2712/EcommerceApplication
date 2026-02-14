@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> orderItems = buildOrder(order, cartItems);
         order.setItems(orderItems);
 
-        //Pricing
+        // Pricing
         BigDecimal totalPrice = orderPricingService.calculateOrderTotal(orderItems);
         order.setTotalPrice(totalPrice);
 
@@ -142,6 +142,7 @@ public class OrderServiceImpl implements OrderService {
                     orderItem.setProduct(product);
                     orderItem.setQuantity(quantity);
                     orderItem.setPrice(product.getPrice());
+                    orderItem.setTotalPrice(orderPricingService.calculateItemTotal(orderItem));
                     return orderItem;
                 })
                 .toList();
