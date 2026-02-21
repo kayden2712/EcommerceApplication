@@ -1,9 +1,9 @@
-package org.example.ecommerceapplication.exception.handler;
+package org.example.ecommerceapplication.common.exception.handler;
 
 import java.time.LocalDateTime;
 
-import org.example.ecommerceapplication.exception.base.BusinessException;
-import org.example.ecommerceapplication.shared.dto.ErrorResponse;
+import org.example.ecommerceapplication.common.dto.ErrorResponse;
+import org.example.ecommerceapplication.common.exception.base.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

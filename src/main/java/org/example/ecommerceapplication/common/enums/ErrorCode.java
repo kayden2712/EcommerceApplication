@@ -1,4 +1,4 @@
-package org.example.ecommerceapplication.enums;
+package org.example.ecommerceapplication.common.enums;
 
 import org.springframework.http.HttpStatus;
 

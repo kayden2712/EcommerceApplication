@@ -1,18 +1,18 @@
 package org.example.ecommerceapplication.auth.service;
 
+import org.example.ecommerceapplication.auth.dto.AuthResponse;
 import org.example.ecommerceapplication.auth.dto.LoginRequest;
 import org.example.ecommerceapplication.auth.dto.RegisterRequest;
-import org.example.ecommerceapplication.auth.dto.AuthResponse;
 import org.example.ecommerceapplication.auth.entity.RefreshToken;
+import org.example.ecommerceapplication.common.enums.ErrorCode;
+import org.example.ecommerceapplication.common.enums.Role;
+import org.example.ecommerceapplication.common.exception.domain.DuplicateResourceException;
+import org.example.ecommerceapplication.common.exception.domain.InvalidOperationException;
+import org.example.ecommerceapplication.common.exception.domain.ResourceNotFoundException;
+import org.example.ecommerceapplication.common.exception.security.UnauthorizedException;
+import org.example.ecommerceapplication.common.security.JwtUtil;
 import org.example.ecommerceapplication.user.entity.User;
-import org.example.ecommerceapplication.enums.ErrorCode;
-import org.example.ecommerceapplication.enums.Role;
-import org.example.ecommerceapplication.exception.domain.DuplicateResourceException;
-import org.example.ecommerceapplication.exception.domain.InvalidOperationException;
-import org.example.ecommerceapplication.exception.domain.ResourceNotFoundException;
-import org.example.ecommerceapplication.exception.security.UnauthorizedException;
 import org.example.ecommerceapplication.user.repository.UserRepository;
-import org.example.ecommerceapplication.security.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

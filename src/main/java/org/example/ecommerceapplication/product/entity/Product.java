@@ -3,7 +3,7 @@ package org.example.ecommerceapplication.product.entity;
 import java.math.BigDecimal;
 
 import org.example.ecommerceapplication.category.entity.Category;
-import org.example.ecommerceapplication.shared.entity.BaseSoftDeleteEntity;
+import org.example.ecommerceapplication.common.entity.BaseSoftDeleteEntity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 

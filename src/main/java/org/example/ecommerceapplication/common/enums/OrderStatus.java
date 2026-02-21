@@ -1,4 +1,4 @@
-package org.example.ecommerceapplication.enums;
+package org.example.ecommerceapplication.common.enums;
 
 public enum OrderStatus {
     PENDING,

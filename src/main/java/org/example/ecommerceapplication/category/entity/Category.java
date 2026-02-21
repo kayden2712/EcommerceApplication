@@ -1,6 +1,7 @@
 package org.example.ecommerceapplication.category.entity;
 
-import org.example.ecommerceapplication.shared.entity.BaseEntity;
+import org.example.ecommerceapplication.common.entity.BaseEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

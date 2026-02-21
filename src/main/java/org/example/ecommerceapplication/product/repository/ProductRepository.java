@@ -1,7 +1,7 @@
 package org.example.ecommerceapplication.product.repository;
 
+import org.example.ecommerceapplication.common.repository.BaseRepository;
 import org.example.ecommerceapplication.product.entity.Product;
-import org.example.ecommerceapplication.shared.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

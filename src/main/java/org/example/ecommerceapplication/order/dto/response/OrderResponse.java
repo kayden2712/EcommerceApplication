@@ -1,9 +1,9 @@
 package org.example.ecommerceapplication.order.dto.response;
 
-import org.example.ecommerceapplication.enums.OrderStatus;
-
 import java.math.BigDecimal;
 import java.util.List;
+
+import org.example.ecommerceapplication.common.enums.OrderStatus;
 
 public record OrderResponse(
         Long id,

@@ -1,4 +1,4 @@
-package org.example.ecommerceapplication.shared.repository;
+package org.example.ecommerceapplication.common.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;

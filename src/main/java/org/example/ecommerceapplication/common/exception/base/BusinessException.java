@@ -1,6 +1,6 @@
-package org.example.ecommerceapplication.exception.base;
+package org.example.ecommerceapplication.common.exception.base;
 
-import org.example.ecommerceapplication.enums.ErrorCode;
+import org.example.ecommerceapplication.common.enums.ErrorCode;
 
 import lombok.Getter;
 

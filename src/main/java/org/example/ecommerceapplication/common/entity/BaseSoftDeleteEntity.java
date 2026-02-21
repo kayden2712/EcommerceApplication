@@ -1,4 +1,4 @@
-package org.example.ecommerceapplication.shared.entity;
+package org.example.ecommerceapplication.common.entity;
 
 import java.time.LocalDateTime;
 

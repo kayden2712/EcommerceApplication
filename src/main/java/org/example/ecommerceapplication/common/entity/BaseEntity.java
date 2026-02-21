@@ -1,4 +1,6 @@
-package org.example.ecommerceapplication.shared.entity;
+package org.example.ecommerceapplication.common.entity;
+
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
@@ -6,8 +8,6 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Getter

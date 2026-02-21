@@ -1,6 +1,6 @@
 package org.example.ecommerceapplication.order.service;
 
-import org.example.ecommerceapplication.enums.OrderStatus;
+import org.example.ecommerceapplication.common.enums.OrderStatus;
 import org.example.ecommerceapplication.order.dto.response.OrderResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

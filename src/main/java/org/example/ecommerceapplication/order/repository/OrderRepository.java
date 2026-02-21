@@ -2,10 +2,10 @@ package org.example.ecommerceapplication.order.repository;
 
 import java.util.List;
 
-import org.example.ecommerceapplication.user.entity.User;
-import org.example.ecommerceapplication.enums.OrderStatus;
-import org.example.ecommerceapplication.shared.repository.BaseRepository;
+import org.example.ecommerceapplication.common.enums.OrderStatus;
+import org.example.ecommerceapplication.common.repository.BaseRepository;
 import org.example.ecommerceapplication.order.entity.Order;
+import org.example.ecommerceapplication.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,7 @@
 package org.example.ecommerceapplication.cart.entity;
 
+import org.example.ecommerceapplication.common.entity.BaseSoftDeleteEntity;
 import org.example.ecommerceapplication.product.entity.Product;
-import org.example.ecommerceapplication.shared.entity.BaseSoftDeleteEntity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 

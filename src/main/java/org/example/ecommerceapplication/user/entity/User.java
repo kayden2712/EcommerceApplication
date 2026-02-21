@@ -1,15 +1,23 @@
 package org.example.ecommerceapplication.user.entity;
 
-import jakarta.persistence.*;
+import org.example.ecommerceapplication.common.entity.BaseSoftDeleteEntity;
+import org.example.ecommerceapplication.common.enums.Role;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.ecommerceapplication.enums.Role;
-import org.example.ecommerceapplication.shared.entity.BaseSoftDeleteEntity;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "users")

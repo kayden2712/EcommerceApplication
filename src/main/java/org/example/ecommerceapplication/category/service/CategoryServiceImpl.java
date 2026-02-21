@@ -2,14 +2,14 @@ package org.example.ecommerceapplication.category.service;
 
 import java.util.List;
 
-import org.example.ecommerceapplication.category.mapper.CategoryMapper;
 import org.example.ecommerceapplication.category.dto.CategoryRequest;
 import org.example.ecommerceapplication.category.dto.CategoryResponse;
 import org.example.ecommerceapplication.category.entity.Category;
-import org.example.ecommerceapplication.enums.ErrorCode;
-import org.example.ecommerceapplication.exception.domain.DuplicateResourceException;
-import org.example.ecommerceapplication.exception.domain.ResourceNotFoundException;
+import org.example.ecommerceapplication.category.mapper.CategoryMapper;
 import org.example.ecommerceapplication.category.repository.CategoryRepository;
+import org.example.ecommerceapplication.common.enums.ErrorCode;
+import org.example.ecommerceapplication.common.exception.domain.DuplicateResourceException;
+import org.example.ecommerceapplication.common.exception.domain.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

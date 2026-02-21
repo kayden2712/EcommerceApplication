@@ -1,4 +1,4 @@
-package org.example.ecommerceapplication.security;
+package org.example.ecommerceapplication.common.security;
 
 import java.util.Date;
 

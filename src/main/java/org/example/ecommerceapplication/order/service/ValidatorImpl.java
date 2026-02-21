@@ -1,8 +1,8 @@
 package org.example.ecommerceapplication.order.service;
 
-import org.example.ecommerceapplication.enums.ErrorCode;
-import org.example.ecommerceapplication.enums.OrderStatus;
-import org.example.ecommerceapplication.exception.domain.InvalidOperationException;
+import org.example.ecommerceapplication.common.enums.ErrorCode;
+import org.example.ecommerceapplication.common.enums.OrderStatus;
+import org.example.ecommerceapplication.common.exception.domain.InvalidOperationException;
 import org.example.ecommerceapplication.order.entity.Order;
 import org.springframework.stereotype.Service;
 

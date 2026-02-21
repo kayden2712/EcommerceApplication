@@ -1,6 +1,6 @@
-package org.example.ecommerceapplication.config;
+package org.example.ecommerceapplication.common.config;
 
-import org.example.ecommerceapplication.security.JwtFilter;
+import org.example.ecommerceapplication.common.security.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
