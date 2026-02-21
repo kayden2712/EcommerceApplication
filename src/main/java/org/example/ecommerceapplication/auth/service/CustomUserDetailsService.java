@@ -1,13 +1,14 @@
 package org.example.ecommerceapplication.auth.service;
 
-import lombok.RequiredArgsConstructor;
+import org.example.ecommerceapplication.auth.model.CustomerUserDetails;
 import org.example.ecommerceapplication.user.entity.User;
-import org.example.ecommerceapplication.model.CustomerUserDetails;
 import org.example.ecommerceapplication.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

@@ -2,8 +2,8 @@ package org.example.ecommerceapplication.exception.handler;
 
 import java.time.LocalDateTime;
 
-import org.example.ecommerceapplication.shared.dto.ErrorResponse;
 import org.example.ecommerceapplication.exception.base.BusinessException;
+import org.example.ecommerceapplication.shared.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(Exception ex, HttpServletRequest request) {
         // Log the exception for debugging
-        ex.printStackTrace();
+        // ex.printStackTrace();
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred", request.getRequestURI());
     }
 
