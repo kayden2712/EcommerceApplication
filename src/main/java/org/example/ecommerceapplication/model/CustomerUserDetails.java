@@ -1,6 +1,6 @@
 package org.example.ecommerceapplication.model;
 
-import org.example.ecommerceapplication.entity.User;
+import org.example.ecommerceapplication.user.entity.User;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

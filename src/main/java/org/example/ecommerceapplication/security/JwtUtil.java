@@ -2,7 +2,7 @@ package org.example.ecommerceapplication.security;
 
 import java.util.Date;
 
-import org.example.ecommerceapplication.entity.User;
+import org.example.ecommerceapplication.user.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 

@@ -2,7 +2,7 @@ package org.example.ecommerceapplication.exception.handler;
 
 import java.time.LocalDateTime;
 
-import org.example.ecommerceapplication.dto.Response.error.ErrorResponse;
+import org.example.ecommerceapplication.shared.dto.ErrorResponse;
 import org.example.ecommerceapplication.exception.base.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

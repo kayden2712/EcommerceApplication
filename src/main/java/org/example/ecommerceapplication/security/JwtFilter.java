@@ -2,7 +2,7 @@ package org.example.ecommerceapplication.security;
 
 import java.io.IOException;
 
-import org.example.ecommerceapplication.service.auth.CustomUserDetailsService;
+import org.example.ecommerceapplication.auth.service.CustomUserDetailsService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
