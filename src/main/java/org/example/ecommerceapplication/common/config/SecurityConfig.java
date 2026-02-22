@@ -15,6 +15,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    /**
+     * @return
+     */
     @Bean
     @SuppressWarnings("unused")
     PasswordEncoder passwordEncoder() {
