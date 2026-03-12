@@ -1,0 +1,33 @@
+@baseUrl = http://localhost:8080
+
+### 1️⃣ REGISTER
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser123",
+  "email": "testuser@example.com",
+  "fullName": "Test User",
+  "password": "Test@12345"
+}
+
+### 2️⃣ LOGIN (Kiểm tra cookies trong Response Headers)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "usernameOrEmail": "testuser123",
+  "password": "Test@12345"
+}
+
+### 3️⃣ GET ALL PRODUCTS (Test với authenticated cookie)
+GET {{baseUrl}}/api/products
+
+### 4️⃣ GET PRODUCT BY ID
+GET {{baseUrl}}/api/products/1
+
+### 5️⃣ REFRESH TOKEN (Cookie tự động gửi)
+POST {{baseUrl}}/api/auth/refresh
+
+### 6️⃣ LOGOUT (Xóa cookies)
+POST {{baseUrl}}/api/auth/logout

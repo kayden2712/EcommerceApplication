@@ -71,7 +71,6 @@ public class AuthServiceImpl implements AuthService {
 
     private User getUser(String name) {
         return repository.findByUsername(name)
-                .or(() -> repository.findByEmail(name))
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 

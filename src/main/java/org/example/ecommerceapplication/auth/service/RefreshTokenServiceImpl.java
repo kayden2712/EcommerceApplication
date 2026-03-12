@@ -50,6 +50,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
+    @Transactional
     public void revoke(User user) {
         refreshTokenReponsitory.deleteByUser(user);
     }
