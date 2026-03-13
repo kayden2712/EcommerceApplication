@@ -5,8 +5,6 @@ import java.util.Optional;
 import org.example.ecommerceapplication.common.repository.BaseRepository;
 import org.example.ecommerceapplication.user.entity.User;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Repository;
-
 @Repository
 public interface UserRepository extends BaseRepository<User, Long> {
 
